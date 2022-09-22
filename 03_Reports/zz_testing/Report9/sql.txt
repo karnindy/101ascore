@@ -1,0 +1,50 @@
+with t as
+(
+select aaa.sseq
+,aaa.all_year
+,nvl(bbb.delmore_90,0) delmore_90
+,nvl(bbb.total_account,0) total_account
+from
+(select a.*
+,a.month_detail||' '||b.all_year all_year
+from master_quater a left join (select extract(year from(create_date)) all_year
+                                from prepare_source_st8
+							    group by extract(year from(create_date))) b on 1 = 1) aaa
+								
+left join
+
+(select aa.month_detail||' '||bb.yyear all_q
+,sum(nvl(actual,0)) total_account
+,sum(nvl(bb.delmore_90,0)) delmore_90
+from master_quater aa inner join (select extract(year from a.create_date) yyear
+									,extract(month from a.create_date) mmonth
+									,b.delmore_90
+									,1 actual
+								  from prepare_source_st8 a left join prepare_source_st9 b on a.appl_id = b.appl_id and substr(a.card_type,1,3) = b.account_type
+								  where product_type = 'CC-บัตรเครดิต'
+								  and model_name = 'A-SCORE'
+								  and card_type = '201-GSB PRECIOUS (PLATINUM)'
+								  and model_version = '1.0'
+								  --and sales_channel = 'BR-สาขา'
+								  --and region_name = 'หน่วยขึ้นตรงภาค 10'
+								  --and zone_name = 'เขตอุดรธานี 2'
+								  --and branch_name = 'สาขาโนนสะอาด 
+								) bb on bb.mmonth between aa.min_month and aa.max_month
+group by aa.month_detail||' '||bb.yyear) bbb on aaa.all_year = bbb.all_q
+)
+select * from t
+pivot (
+sum(delmore_90)
+for all_year in ('ม.ค.-มี.ค. 2018','เม.ย.-มิ.ย. 2018','ก.ค.-ก.ย. 2018','ต.ค.-ธ.ค. 2018')
+)
+order by sseq;
+
+-- ('ม.ค.-มี.ค. 2018','เม.ย.-มิ.ย. 2018','ก.ค.-ก.ย. 2018','ต.ค.-ธ.ค. 2018')
+
+/* all_year */
+select a.sseq, a.month_detail||' '||b.all_year all_year
+from master_quater a left join (select extract(year from(create_date)) all_year
+                                from prepare_source_st8
+							    group by extract(year from(create_date))) b on 1 = 1
+group by a.sseq, a.month_detail||' '||b.all_year
+order by a.sseq asc

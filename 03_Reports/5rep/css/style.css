@@ -1,0 +1,125 @@
+================================= start spin loader ================================*/
+.lds-hourglass {
+  display: inline-block;
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 8px;
+  box-sizing: border-box;
+  border: 32px solid #FFCC46;
+  border-color: #FFCC46 transparent #FFCC46 transparent;
+  animation: lds-hourglass 1.2s infinite;
+}
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
+}
+.spin-pos {
+  position: absolute;
+  left: 50%;
+  top: 20%;
+}
+      
+/*================================= end spin loader ================================*/    
+
+p {
+  font-size: 14px;
+}
+
+.activee {
+  background-color: #feccff;;
+}
+
+/*=================================================== start button export ==================================================*/
+
+.buttonxx{
+  height: 60px;
+  width: 60px;
+  margin: 10px;
+  float: left;
+  cursor: pointer;
+  background: #fff;
+  overflow: hidden;
+  border-radius: 10px;
+  line-height: 60px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0px 10px 10px rgba(0,0,0,0.1);
+
+}
+
+.buttonxx .icon{
+  height: 60px;
+  width: 60px;
+  display: inline-block;
+  transition: all 0.3s ease-in-out;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.buttonxx .icon i{
+  font-size: 25px;
+  transition: all 0.3s ease-in-out;
+  line-height: 60px;
+
+}
+
+.buttonxx span{
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 60px;
+  margin-left: 10px;
+}
+
+.buttonxx:nth-child(1):hover .icon{
+  background: red;
+}
+.buttonxx:nth-child(2):hover .icon{
+  background: green;
+}
+.buttonxx:nth-child(3):hover .icon{
+  background: black;
+}
+.buttonxx:nth-child(4):hover .icon{
+  background: green;
+}
+
+
+
+.buttonxx:nth-child(1) span{
+  color: red;
+}
+.buttonxx:nth-child(2) span{
+  color: green;
+}
+.buttonxx:nth-child(3) span{
+  color: black;
+}
+.buttonxx:nth-child(4)span{
+  color: green;
+}
+
+
+.buttonxx:hover i{
+  color: #fff;
+}
+
+.buttonxx:hover{
+  width: 200px;
+}
+/*=================================================== end button export ==================================================

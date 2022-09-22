@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <script src="js/js.js"></script>
+    <script src="js/daf97bc9e5.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-1.12.4.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/all.js"></script>
+    <script src="js/all.min.js"></script>
+    <script src="js/fontawesome.js"></script>
+    <script src="js/fontawesome.min.js"></script>
+    <script src="js/regular.js"></script>
+    <script src="js/regular.min.js"></script>
+    <script src="js/solid.js"></script>
+    <script src="js/solid.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/all.css">
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/fontawesome.css">
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+    <link rel="stylesheet" href="css/regular.css">
+    <link rel="stylesheet" href="css/regular.min.css">
+    <link rel="stylesheet" href="css/solid.css">
+    <link rel="stylesheet" href="css/solid.min.css">
+
+
+  <title>5REP</title>
+ <!-- pinkGSB #feccff -->
+</head>
+    <body onload="set()">
+    	<div align="left" id="head_tab"></div>
+
+    	<div id="page">
+
+    	<div align="center" id="se_filter_tab">
+        <a style="display:none;">
+      <input class="form-control" type="text" value="" id="appl_id_aam" onchange="">
+      <select class="form-control" id="product_type" onchange="">
+        <option  selected value="1">--เลือกค่า--</option>
+      </select>
+      <select class="form-control" id="card_type" onchange="">
+        <option  selected value="1">--เลือกค่า--</option>
+      </select>
+      <input class="form-control" type="text" value="" maxlength="13" id="cid" onkeyup="">
+      <select class="form-control" id="region_name" onchange="">
+        <option  selected value="1">--เลือกค่า--</option>
+      </select>
+      <select class="form-control" id="zone_name" onchange="">
+        <option  selected value="1">--เลือกค่า--</option>
+      </select>
+      <select class="form-control" id="branch_name" onchange="">
+        <option  selected value="1">--เลือกค่า--</option>
+      </select>
+      <select class="form-control" onchange="" id="ca2_appl_result_code">
+        <option  selected value="1">--เลือกค่า--</option>
+      </select>
+      </a>
+    </div>
+    	<div align="center" id="se_data"></div>
+    	</div>
+
+
+
+        <div style="display:none;" id="se_ref">
+          <input style="display:none;" type="text" id="ref_id" value="">
+          <input style="display:none;" type="text" id="ref_card" value="">
+          <input style="display:none;" type="text" id="ref_sequence" value="">
+        </div>
+        <div align="center" id="export"></div>
+
+    </body>
+
+  <div class="modal fade" id="myModal" role="dialog" >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+    <div align="center" id="se_more"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div id="loading" align="center" style="display: none;" class="modal" tabindex="-1" role="dialog">
+      <!-- <span class="loader spin-pos"></span> -->
+          <div class="lds-hourglass spin-pos">
+              <a style="color: red; font-weight: bold; font-size: 16px;">Loading...</a>
+          </div>
+      </div>
+    </div>
+
+    <div align="center" id="data"></div>
+
+</html>

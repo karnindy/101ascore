@@ -1,0 +1,6 @@
+| | |As % of Applications in Range| | |As % of Approved| 
+|Category|Past 3 Months|Past 12 Months|Year ago 12 Months|Past 3 Months|Past 12 Months|Year ago 12 Months| 
+|Low Side Approval|0|0|0|0|0|0| 
+|% Approved|0.00|0.00|0.00|0.00|0.00|0.00| 
+|High Side Declined|0|888|1,804|0|888|1,804| 
+|% Declined|0.00|16.47|16.98|0.00|32.91|34.19| 
