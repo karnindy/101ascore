@@ -1,7 +1,7 @@
 <?php
 include("../database/connect.php");
 // include("js/jquery-2.2.4.min.js");
-$FileNmae="Report8_TXT.txt";
+$FileNmae="Report7_TXT.txt";
 header("Content-Type: application/x-msexcel; name=\"$FileNmae\"");
 header("Content-Disposition: inline; filename=\"$FileNmae\"");
 header("Pragma:no-cache");
@@ -23,37 +23,64 @@ $year=$_GET['year'];
 require('sqlExport.php');
 // echo  $sql;
 $file = fopen("csv/".$FileNmae, "w");
-fwrite($file, "|Early Performance| |Bad: Ever 1-30| | |Bad: Ever 31-60| | |Bad: Ever 61-90| \r\n");
-fwrite($file, "|Score Range|Past 3 Months|Past 12 Months|Year ago 12 months|% Past 3 Months|% Past 12 Months|% Year ago 12 months|% Past 3 Months|% Past 12 Months|% Year ago 12 months| \r\n");
+fwrite($file, "| | |Currentt Validation Sample(%)| | |Development Sample(%)| | \r\n");
+fwrite($file, "|Score Range|% Cum_G|% Cum_B|Sep_BG|% BadRate(Current)|% Cum_G|% Cum_B|Sep_BG|% BadRate(Dev)| \r\n");
 
 $query = oci_parse($conn, $sql);
 oci_execute($query,OCI_DEFAULT);
 while ($row = oci_fetch_array($query,OCI_BOTH)) {
     
-		$s1=$row['SCORE_RANGE_DESC'];
-		$s2=number_format($row['BAD1_30PAST3MONTHS'], 2);
-		$s3=number_format($row['BAD1_30PAST12MONTHS'], 2);
-		$s4=number_format($row['BAD1_30PASTMORE12'], 2);
-		$s5=number_format($row['BAD31_60PAST3MONTHS'], 2);
-		$s6=number_format($row['BAD31_60PAST12MONTHS'], 2);
-		$s7=number_format($row['BAD31_60PASTMORE12'], 2);
-		$s8=number_format($row['BAD61_90PAST3MONTHS'], 2);
-		$s9=number_format($row['BAD61_90PAST12MONTHS'], 2);
-		$s10=number_format($row['BAD61_90PASTMORE12'], 2);
+    	$s1=$row['SCORE_RANGE_DESC'];
+		// $s2=number_format($row['PER_CUM_G_CURR'], 2);
+		// $s3=number_format($row['PER_CUM_B_CURR'], 2);
+		// $s4=number_format($row['SEP_BG_CURR'], 2);
+		// $s5=number_format($row['PER_BAD_RATE_CURR'], 2);
+		// $s6=number_format($row['PER_GOOD_DEV'], 2);
+		// $s7=number_format($row['PER_BAD_DEV'], 2);
+		// $s8=number_format($row['SEP_BG_DEV'], 2);
+		// $s9=number_format($row['PER_BAD_RATE_DEV'], 2);
+
+		if ($row['PER_CUM_G_CURR']== '') {
+			$s2="";
+		}else{$s2=number_format($row['PER_CUM_G_CURR'], 2);}
+
+		if ($row['PER_CUM_B_CURR']== '') {
+			$s3="";
+		}else{$s3=number_format($row['PER_CUM_B_CURR'], 2);}
+
+		if ($row['SEP_BG_CURR']== '') {
+			$s4="";
+		}else{$s4=number_format($row['SEP_BG_CURR'], 2);}
+
+		if ($row['PER_BAD_RATE_CURR']== '') {
+			$s5="";
+		}else{$s5=number_format($row['PER_BAD_RATE_CURR'], 2);}
+
+		if ($row['PER_GOOD_DEV']== '') {
+			$s6="";
+		}else{$s6=number_format($row['PER_GOOD_DEV'], 2);}
+
+		if ($row['PER_BAD_DEV']== '') {
+			$s7="";
+		}else{$s7=number_format($row['PER_BAD_DEV'], 2);}
+
+		if ($row['SEP_BG_DEV']== '') {
+			$s8="";
+		}else{$s8=number_format($row['SEP_BG_DEV'], 2);}
+
+		if ($row['PER_BAD_RATE_DEV']== '') {
+			$s9="";
+		}else{$s9=number_format($row['PER_BAD_RATE_DEV'], 2);}
 
 	if(preg_match("/Total/i", $row['SCORE_RANGE_DESC'])){
 
-		fwrite($file, "|$s1|$s2|$s3|$s4|$s5|$s6|$s7|$s8|$s9|$s10| \r\n");
 
-		} else if(preg_match("/Average Bad Rate/i", $row['SCORE_RANGE_DESC'])){
-
-
-		fwrite($file, "|$s1|$s2|$s3|$s4|$s5|$s6|$s7|$s8|$s9|$s10| \r\n");
+		fwrite($file, "|$s1|$s2|$s3|$s4|$s5|$s6|$s7|$s8|$s9| \r\n");
 
 		} else {
 
 
-		fwrite($file, "|$s1|$s2|$s3|$s4|$s5|$s6|$s7|$s8|$s9|$s10| \r\n");
+		fwrite($file, "|$s1|$s2|$s3|$s4|$s5|$s6|$s7|$s8|$s9| \r\n");
 
 		}
 

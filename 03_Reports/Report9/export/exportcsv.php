@@ -13,76 +13,67 @@ $zone_name=$_POST['zone_name'];
 $branch_name=$_POST['branch_name'];
 $month=$_POST['month'];
 $year=$_POST['year'];
-$all_year=$_POST['all_year'];
 
 require('sqlExport.php');
 // echo  $sql;
-
-
-$name="9";
+$name="7";
 $fileName = "csv/Report".$name."_CSV.csv";
 $objWrite = fopen("csv/Report".$name."_CSV.csv", "w");
 fwrite($objWrite, "\xEF\xBB\xBF");
-
-
-$sql_all_year = get_all_year($_POST['product_type'], $_POST['model_type'], $_POST['card_type'], $_POST['model_version'], $_POST['sales_channel'], $_POST['region_name'], $_POST['zone_name'], $_POST['branch_name'], $_POST['month'], $_POST['year']);
-$query_all_year = oci_parse($conn, $sql_all_year);
-// echo $sql_all_year;
-oci_execute($query_all_year,OCI_DEFAULT);
-
-$numrows = oci_fetch_all($query_all_year, $res);
-
-fwrite($objWrite, "\" \",\" \",\"Deliquency\"");
-for ($x = 1; $x <= $numrows-1; $x++) {
-  fwrite($objWrite, ",\" \"");
-} 
-fwrite($objWrite, "\n");
-fwrite($objWrite, "\"Approve Date\",\"Total Account\"");
-
-$all_year = "";
-$array_all_year = array();
-$count_all_year = 1;
-// print_r($res["ALL_YEAR"]);
-foreach ($res["ALL_YEAR"] as $row_all_year) {
-    array_push($array_all_year, $row_all_year);
-
-  fwrite($objWrite, ",\"$row_all_year\"");
-
-    if($count_all_year == $numrows){
-        $all_year = $all_year . "'" . $row_all_year . "'";
-    } else {
-        $all_year = $all_year . "'" . $row_all_year . "',";
-    }
-    $count_all_year++;
-}
-fwrite($objWrite, "\n");
-$sql = get_report_sql($_POST['product_type'], $_POST['model_type'], $_POST['card_type'], $_POST['region_name'], $_POST['zone_name'], $_POST['branch_name'], $_POST['model_version'], $_POST['sales_channel'], $_POST['month'], $_POST['year'], $all_year, $_POST['business_type']);
+fwrite($objWrite, "\"\",\"\",\"Currentt Validation Sample(%)\",\"\",\"\",\"Development Sample(%)\",\"\",\"\",\"\" \n");
+fwrite($objWrite, "\"Score Range\",\"% Cum_G\",\"% Cum_B\",\"Sep_BG\",\"% BadRate(Current)\",\"% Cum_G\",\"% Cum_B\",\"Sep_BG\",\"% BadRate(Dev)\" \n");
 
 $query = oci_parse($conn, $sql);
 oci_execute($query,OCI_DEFAULT);
-$count = 0;
 while ($row = oci_fetch_array($query,OCI_BOTH)) {
-	$month = "'" . $array_all_year[$count] . "'";
+    
+    	$s1=$row['SCORE_RANGE_DESC'];
 
-		$s1=$array_all_year[$count];
-		$s2=number_format($row['TOTAL_ACCOUNT'], 0);
-		$s3=number_format($row[$month], 2);
+		if ($row['PER_CUM_G_CURR']== '') {
+			$s2="";
+		}else{$s2=number_format($row['PER_CUM_G_CURR'], 2);}
 
-			fwrite($objWrite, "\"$s1\",\"$s2\"");
+		if ($row['PER_CUM_B_CURR']== '') {
+			$s3="";
+		}else{$s3=number_format($row['PER_CUM_B_CURR'], 2);}
 
-    for ($i=0; $i < $numrows; $i++) {
-        if($count == $i){
-        	fwrite($objWrite, ",\"$s3\"");
-        } else {
-            fwrite($objWrite, ",\"0.00\"");
-        }
-    }
-    fwrite($objWrite, "\n");
-    $count++;
-}
+		if ($row['SEP_BG_CURR']== '') {
+			$s4="";
+		}else{$s4=number_format($row['SEP_BG_CURR'], 2);}
+
+		if ($row['PER_BAD_RATE_CURR']== '') {
+			$s5="";
+		}else{$s5=number_format($row['PER_BAD_RATE_CURR'], 2);}
+
+		if ($row['PER_GOOD_DEV']== '') {
+			$s6="";
+		}else{$s6=number_format($row['PER_GOOD_DEV'], 2);}
+
+		if ($row['PER_BAD_DEV']== '') {
+			$s7="";
+		}else{$s7=number_format($row['PER_BAD_DEV'], 2);}
+
+		if ($row['SEP_BG_DEV']== '') {
+			$s8="";
+		}else{$s8=number_format($row['SEP_BG_DEV'], 2);}
+
+		if ($row['PER_BAD_RATE_DEV']== '') {
+			$s9="";
+		}else{$s9=number_format($row['PER_BAD_RATE_DEV'], 2);}
+
+	if(preg_match("/Total/i", $row['SCORE_RANGE_DESC'])){
 
 
+		fwrite($objWrite, "\"$s1\",\"$s2\",\"$s3\",\"$s4\",\"$s5\",\"$s6\",\"$s7\",\"$s8\",\"$s9\" \n");
 
+		} else {
+
+
+		fwrite($objWrite, "\"$s1\",\"$s2\",\"$s3\",\"$s4\",\"$s5\",\"$s6\",\"$s7\",\"$s8\",\"$s9\" \n");
+
+		}
+
+	}
 
 fclose($objWrite);
 ?>

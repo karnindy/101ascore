@@ -7,32 +7,54 @@ $model_type=$_POST['model_type'];
 $card_type=$_POST['card_type'];
 $region_FileName=$_POST['region_FileName'];
 $zone_FileName=$_POST['zone_FileName'];
+$branch_FileName=$_POST['branch_FileName'];
+$model_version=$_POST['model_version'];
+$sales_channel=$_POST['sales_channel'];
 $start_date=$_POST['start_date'];
 $end_date=$_POST['end_date'];
-
+$business_type=$_POST['business_type'];
+$region_name=$_POST['region_name'];
+$zone_name=$_POST['zone_name'];
+$branch_name=$_POST['branch_name'];
+$start_date="01-".$start_date;
+$end_date="31-".$end_date;
 
 require('sqlExport.php');
 // echo  $sql;
-$FileName="Report13_CSV.csv";
+$FileName="Report12_CSV.csv";
 $fileFileName = "csv/".$FileName;
-$objWrite = fopen("csv/".$FileName, "w");
-fwrite($objWrite, "\xEF\xBB\xBF");
-fwrite($objWrite, "\"วันบันทึกข้อมูล\",\"ประเภทสินเชื่อ\",\"ประเภทโมเดล\",\"ประเภทบัตร\",\"เวอร์ชันโมเดล\",\"วันที่เริ่มใช้งาน\",\"Description\" \n");
+$file = fopen("csv/".$FileName, "w");
+fwrite($file, "\xEF\xBB\xBF");
+fwrite($file, "\" \",\"Active account\",\" \",\" \",\"หนี้ที่ไม่ก่อรายได้ (NPLs)\",\" \",\" \",\" \" \n");
+
+fwrite($file, "\"Grade Range\",\"No. of Account\",\"Amount\",\"No. of Account\",\"% NPLs\",\"Amount\",\"%Amount\",\"% of Cumulative NPLs\" \n");
 
 $query = oci_parse($conn, $sql);
 oci_execute($query,OCI_DEFAULT);
 while ($row = oci_fetch_array($query,OCI_BOTH)) {
+    
+		$s1=$row['SCOREGRADE'];
+                $s2=number_format($row['ACTIVE_ACCOUNT'], 0);
+                $s3=number_format($row['ACTIVE_AMOUNT'], 2);
+                $s4=number_format($row['NPLS_ACCOUNT'], 0);
+                $s5=number_format($row['PER_NPLS'], 2);
+                $s6=number_format($row['NCB_AMOUNT'], 2);
+                $s7=number_format($row['PER_NCB_AMOUNT'], 2);
+                $s8=number_format($row['PER_CUM_NPL'], 2);
 
-		$s1=$row['CREATE_DATE'];
-		$s2=$row['PRODUCT_TYPE'];
-		$s3=$row['MODEL_TYPE'];
-		$s4=$row['CARD_TYPE'];
-		$s5=$row['VERSION_MODEL'];
-		$s6=$row['START_DATE'];
-		$s7=$row['DESCRIPTION'];
-		
-		fwrite($objWrite, "\"$s1\",\"$s2\",\"$s3\",\"$s4\",\"$s5\",\"$s6\",\"$s7\" \n");
-}
+	if(strtolower($row['SCOREGRADE']) == "total"){
 
-fclose($objWrite);
+
+		fwrite($file, "\"$s1\",\"$s2\",\"$s3\",\"$s4\",\"$s5\",\"$s6\",\"$s7\",\"$s8\" \n");
+
+		} else {
+
+
+		fwrite($file, "\"$s1\",\"$s2\",\"$s3\",\"$s4\",\"$s5\",\"$s6\",\"$s7\",\"$s8\" \n");
+
+		}
+
+	}
+
+fclose($file);
 ?>

@@ -61,14 +61,13 @@ function getValueDropdown(element) {
 }
 
 function onSubmit() {
-    // document.getElementById("report_area").style.display = "block";
     const product_type = document.getElementById('product_type').value; 
     const model_type = document.getElementById('model_type').value; 
     const card_type = document.getElementById('card_type').value; 
     const model_version = document.getElementById('model_version').value;
     const month = document.getElementById('month').value
     const year = document.getElementById('year').value
-    if(product_type === '--โปรดเลือก--' || model_type === '--โปรดเลือก--' || card_type === '--โปรดเลือก--' || model_version === '--โปรดเลือก--' || !month || !year) {
+    if(product_type === '--โปรดเลือก--' || model_type === '--โปรดเลือก--' || card_type === '--โปรดเลือก--' || model_version === '--โปรดเลือก--' || !month || !year) { 
         alert("กรุณากรอกข้อมูลให้ครบถ้วน");
         return;
     }

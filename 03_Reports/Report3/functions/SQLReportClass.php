@@ -19,8 +19,7 @@ from
 ,bb.actual
 ,nvl(bb.actual,0)/case when nvl(bb.total_actual,0) = 0 then 1 else nvl(bb.total_actual,0) end * 100 per_actual
 
-/*,(bb.actual/case when nvl(bb.total_actual,0) = 0 then 1 else nvl(bb.total_actual,0) end * 100 
-- aa.dev/case when nvl(aa.total_dev,0) = 0 then 1 else nvl(aa.total_dev,0) end * 100)/100 change*/
+
 
 , ((nvl(bb.actual,0)/case when nvl(bb.total_actual,0) = 0 then 1 else nvl(bb.total_actual,0) end * 100)
 -  (aa.dev/case when nvl(aa.total_dev,0) = 0 then 1 else nvl(aa.total_dev,0) end * 100))/100 change
