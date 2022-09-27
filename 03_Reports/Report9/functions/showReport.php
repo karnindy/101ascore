@@ -10,57 +10,55 @@ include("../database/connect.php");
 include("SQLReportClass.php");
 error_reporting(E_ERROR | E_PARSE);
 
+$sql_all_year = get_all_year($_POST['product_type'], $_POST['model_type'], $_POST['card_type'], $_POST['model_version'], $_POST['sales_channel'], $_POST['region_name'], $_POST['zone_name'], $_POST['branch_name'], $_POST['month'], $_POST['year']);
+$query_all_year = oci_parse($conn, $sql_all_year);
+// echo $sql_all_year;
+oci_execute($query_all_year,OCI_DEFAULT);
+
+$numrows = oci_fetch_all($query_all_year, $res);
 $table = "<table class='table table-bordered'>
             <thead style='background-color:#feccff;'>
                 <tr>
-                    <th rowspan='2' scope='col' class='text-center align-middle' style='width:200px;'>Score Range</th>
-                    <th colspan='4' scope='col' class='text-center align-middle'>Current Validation Sample(%)</th>
-                    <th colspan='4' scope='col' class='text-center align-middle'>Development Sample(%)</th>
-                    
+                    <th rowspan='2' scope='col' class='text-center align-middle' style='width:200px;'>Approve Date</th>
+                    <th rowspan='2' scope='col' class='text-center align-middle'>Total Account</th>
+                    <th colspan='".$numrows."' scope='col' class='text-center align-middle'>Deliquency</th>
                 </tr>
-                <tr>
-                    <th scope='col' class='text-center align-middle'>% Cum_G</th>
-                    <th scope='col' class='text-center align-middle'>% Cum_B</th>
-                    <th scope='col' class='text-center align-middle'>Sep_BG</th>
-                    <th scope='col' class='text-center align-middle'>% BadRate(Current)</th>
-                    <th scope='col' class='text-center align-middle'>% Cum_G</th>
-                    <th scope='col' class='text-center align-middle'>% Cum_B</th>
-                    <th scope='col' class='text-center align-middle'>Sep_BG</th>
-                    <th scope='col' class='text-center align-middle'>% BadRate(Dev)</th>
-                </tr>
-            </thead>
-            <tbody>";
-$sql = get_report_sql($_POST['product_type'], $_POST['model_type'], $_POST['card_type'], $_POST['region_name'], $_POST['zone_name'], $_POST['branch_name'], $_POST['model_version'], $_POST['sales_channel'], $_POST['month'], $_POST['year'], $_POST['business_type']);
+                <tr>";
+$all_year = "";
+$array_all_year = array();
+$count_all_year = 1;
+// print_r($res["ALL_YEAR"]);
+foreach ($res["ALL_YEAR"] as $row_all_year) {
+    array_push($array_all_year, $row_all_year);
+    $table = $table . "<th scope='col' class='text-center align-middle'>". $row_all_year ."</th>";
+    if($count_all_year == $numrows){
+        $all_year = $all_year . "'" . $row_all_year . "'";
+    } else {
+        $all_year = $all_year . "'" . $row_all_year . "',";
+    }
+    $count_all_year++;
+}
+
+$table = $table."</tr></thead><tbody>";
+$sql = get_report_sql($_POST['product_type'], $_POST['model_type'], $_POST['card_type'], $_POST['region_name'], $_POST['zone_name'], $_POST['branch_name'], $_POST['model_version'], $_POST['sales_channel'], $_POST['month'], $_POST['year'], $all_year, $_POST['business_type']);
 // echo $sql;
 $query = oci_parse($conn, $sql);
 oci_execute($query,OCI_DEFAULT);
+$count = 0;
 while ($row = oci_fetch_array($query,OCI_BOTH)) {
-    if(preg_match("/Total/i", $row['SCORE_RANGE_DESC'])){
-        $table = $table."<tr style='background-color:#feccff;'>
-                    <td>" . $row['SCORE_RANGE_DESC'] . "</td>
-                    <td class='text-right'>" . (($row['PER_CUM_G_CURR'] == "")? '' : number_format($row['PER_CUM_G_CURR'], 2)) . "</td>
-                    <td class='text-right'>" . (($row['PER_CUM_B_CURR'] == "")? '' : number_format($row['PER_CUM_B_CURR'], 2)) . "</td>
-                    <td class='text-right'>" . (($row['SEP_BG_CURR'] == "")? '' : number_format($row['SEP_BG_CURR'], 2)) . "</td>
-                    <td class='text-right'>" . (($row['PER_BAD_RATE_CURR'] == "")? '' : number_format($row['PER_BAD_RATE_CURR'], 2)) . "</td>
-                    <td class='text-right'>" . (($row['PER_GOOD_DEV'] == "")? '' : number_format($row['PER_GOOD_DEV'], 2)) . "</td>
-                    <td class='text-right'>" . (($row['PER_BAD_DEV'] == "")? '' : number_format($row['PER_BAD_DEV'], 2)) . "</td>
-                    <td class='text-right'>" . (($row['SEP_BG_DEV'] == "")? '' : number_format($row['SEP_BG_DEV'], 2)) . "</td>
-                    <td class='text-right'>" . (($row['PER_BAD_RATE_DEV'] == "")? '' : number_format($row['PER_BAD_RATE_DEV'], 2)) . "</td>
-                </tr>";
-    } else {
-        $table = $table."<tr>
-                    <td>" . $row['SCORE_RANGE_DESC'] . "</td>
-                    <td class='text-right'>" . (($row['PER_CUM_G_CURR'] == "")? '' : number_format($row['PER_CUM_G_CURR'], 2)) . "</td>
-                    <td class='text-right'>" . (($row['PER_CUM_B_CURR'] == "")? '' : number_format($row['PER_CUM_B_CURR'], 2)) . "</td>
-                    <td class='text-right'>" . (($row['SEP_BG_CURR'] == "")? '' : number_format($row['SEP_BG_CURR'], 2)) . "</td>
-                    <td class='text-right'>" . (($row['PER_BAD_RATE_CURR'] == "")? '' : number_format($row['PER_BAD_RATE_CURR'], 2)) . "</td>
-                    <td class='text-right'>" . (($row['PER_GOOD_DEV'] == "")? '' : number_format($row['PER_GOOD_DEV'], 2)) . "</td>
-                    <td class='text-right'>" . (($row['PER_BAD_DEV'] == "")? '' : number_format($row['PER_BAD_DEV'], 2)) . "</td>
-                    <td class='text-right'>" . (($row['SEP_BG_DEV'] == "")? '' : number_format($row['SEP_BG_DEV'], 2)) . "</td>
-                    <td class='text-right'>" . (($row['PER_BAD_RATE_DEV'] == "")? '' : number_format($row['PER_BAD_RATE_DEV'], 2)) . "</td>
-                </tr>";
+    $month = "'" . $array_all_year[$count] . "'";
+    $table = $table."<tr>
+                        <td>" . $array_all_year[$count] . "</td>
+                        <td class='text-right'>" . number_format($row['TOTAL_ACCOUNT'], 0) . "</td>";
+    for ($i=0; $i < $numrows; $i++) {
+        if($count == $i){
+            $table = $table. "<td class='text-right' style='".(number_format($row[$month], 2) != '0.00' ? 'background-color: darkgray' : '')."'>" . number_format($row[$month], 2) . "</td>";
+        } else {
+            $table = $table. "<td class='text-right'>0.00</td>";
+        }
     }
-    
+    $table = $table. "</tr>";
+    $count++;
 }
 
 $table = $table. "</tbody></table>";

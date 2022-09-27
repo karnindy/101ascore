@@ -10,10 +10,9 @@ function export_csv() {
     var branch_name = $('#branch_name').val();
     var month = $('#month').val();
     var year = $('#year').val();
-    
     $.ajax({
         type: "POST", 
-        url: "/Report7/export/exportcsv.php",
+        url: "/Report8/export/exportcsv.php",
         data:{
         'product_type':product_type,
         'model_type':model_type,
@@ -29,7 +28,7 @@ function export_csv() {
     },
         success: function(result){
             $('#export').html(result);
-            window.open("/Report7/export/csv/Report7_CSV.csv");
+            window.open("/Report8/export/csv/Report8_CSV.csv");
             
         }
     });
@@ -48,7 +47,7 @@ function export_txt() {
     var branch_name = $('#branch_name').val();
     var month = $('#month').val();
     var year = $('#year').val();
-    window.open('/Report7/export/exporttxt.php'+
+    window.open('/Report8/export/exporttxt.php'+
         '?product_type='+product_type+
         '&model_type='+model_type+
         '&card_type='+card_type+
@@ -61,6 +60,7 @@ function export_txt() {
         '&month='+month+
         '&year='+year
         );
+    
 }
 
 function export_xls() {
@@ -75,7 +75,7 @@ function export_xls() {
     var branch_name = $('#branch_name').val();
     var month = $('#month').val();
     var year = $('#year').val();
-    window.open('/Report7/export/exportxls.php'+
+    window.open('/Report8/export/exportxls.php'+
         '?product_type='+product_type+
         '&model_type='+model_type+
         '&card_type='+card_type+
@@ -102,7 +102,7 @@ function export_pdf() {
     var branch_name = $('#branch_name').val();
     var month = $('#month').val();
     var year = $('#year').val();
-    window.open('/Report7/export/exportpdf.php'+
+    window.open('/Report8/export/exportpdf.php'+
         '?product_type='+product_type+
         '&model_type='+model_type+
         '&card_type='+card_type+

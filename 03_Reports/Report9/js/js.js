@@ -10,10 +10,10 @@ function export_csv() {
     var branch_name = $('#branch_name').val();
     var month = $('#month').val();
     var year = $('#year').val();
-    
+    var all_year = $('#all_year').val();
     $.ajax({
         type: "POST", 
-        url: "/Report7/export/exportcsv.php",
+        url: "/Report9/export/exportcsv.php",
         data:{
         'product_type':product_type,
         'model_type':model_type,
@@ -25,11 +25,12 @@ function export_csv() {
         'zone_name':zone_name,
         'branch_name':branch_name,
         'month':month,
-        'year':year
+        'year':year,
+        'all_year':all_year
     },
         success: function(result){
             $('#export').html(result);
-            window.open("/Report7/export/csv/Report7_CSV.csv");
+            window.open("/Report9/export/csv/Report9_CSV.csv");
             
         }
     });
@@ -48,7 +49,8 @@ function export_txt() {
     var branch_name = $('#branch_name').val();
     var month = $('#month').val();
     var year = $('#year').val();
-    window.open('/Report7/export/exporttxt.php'+
+    var all_year = $('#all_year').val();
+    window.open('/Report9/export/exporttxt.php'+
         '?product_type='+product_type+
         '&model_type='+model_type+
         '&card_type='+card_type+
@@ -59,8 +61,10 @@ function export_txt() {
         '&zone_name='+zone_name+
         '&branch_name='+branch_name+
         '&month='+month+
-        '&year='+year
+        '&year='+year+
+        '&all_year='+all_year
         );
+    
 }
 
 function export_xls() {
@@ -75,7 +79,8 @@ function export_xls() {
     var branch_name = $('#branch_name').val();
     var month = $('#month').val();
     var year = $('#year').val();
-    window.open('/Report7/export/exportxls.php'+
+    var all_year = $('#all_year').val();
+    window.open('/Report9/export/exportxls.php'+
         '?product_type='+product_type+
         '&model_type='+model_type+
         '&card_type='+card_type+
@@ -86,7 +91,8 @@ function export_xls() {
         '&zone_name='+zone_name+
         '&branch_name='+branch_name+
         '&month='+month+
-        '&year='+year
+        '&year='+year+
+        '&all_year='+all_year
         );
 }
 
@@ -102,7 +108,8 @@ function export_pdf() {
     var branch_name = $('#branch_name').val();
     var month = $('#month').val();
     var year = $('#year').val();
-    window.open('/Report7/export/exportpdf.php'+
+    var all_year = $('#all_year').val();
+    window.open('/Report9/export/exportpdf.php'+
         '?product_type='+product_type+
         '&model_type='+model_type+
         '&card_type='+card_type+
@@ -113,6 +120,7 @@ function export_pdf() {
         '&zone_name='+zone_name+
         '&branch_name='+branch_name+
         '&month='+month+
-        '&year='+year
+        '&year='+year+
+        '&all_year='+all_year
         );
 }

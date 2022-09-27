@@ -25,17 +25,22 @@ if($_POST['id'] == 'business_type'){
 } else if($_POST['id'] == 'product_type'){
     $options = "";
     $sql = "select model_type_display
-                from prepare_master_step2
-                where product_type_display in ('#product_type_display#')
-                group by model_type_display
-                order by model_type_display asc";
+            from prepare_master_step2
+            where 1=1 
+            and  ('#product_type_display#' = 'รวมทุกประเภทสินเชื่อ' 
+            or product_type_display = '#product_type_display#')
+            group by model_type_display
+            order by model_type_display asc";
     $sql = str_replace('#product_type_display#', $_POST['value'], $sql);
     
     echo $sql;
 
     $query = oci_parse($conn, $sql);
     oci_execute ($query,OCI_DEFAULT);
-    $options = $options."<option disabled selected>--โปรดเลือก--</option>";
+    $options = $options."<option disabled selected value=''>--โปรดเลือก--</option>";
+    if($_POST['value'] == "รวมทุกประเภทสินเชื่อ"){
+        $options = $options."<option value='รวมทุกประเภทโมเดล'>รวมทุกประเภทโมเดล</option>";
+    }
     while ($row = oci_fetch_array($query,OCI_BOTH)) {
         $str = "<option value='" . $row['MODEL_TYPE_DISPLAY'] . "'>" . $row['MODEL_TYPE_DISPLAY'] . "</option>";
         $options = $options.$str;
@@ -45,18 +50,24 @@ if($_POST['id'] == 'business_type'){
     echo $options;
 
 } else if($_POST['id'] == 'model_type'){
-	$options = "";
-	$sql = "select card_type_display
-				from prepare_master_step2
-				where model_type_display in ('#model_type_display#')
-				group by card_type_display
-				order by card_type_display asc";
-	$sql = str_replace('#model_type_display#', $_POST['value'], $sql);
+    $options = "";
+    $sql = "select card_type_display
+            from prepare_master_step2
+            where 1=1 
+            and  ('#model_type_display#' = 'รวมทุกประเภทโมเดล' 
+            or model_type_display = '#model_type_display#')
+            group by card_type_display
+            order by card_type_display asc";
+    $sql = str_replace('#model_type_display#', $_POST['value'], $sql);
     $query = oci_parse($conn, $sql);
     oci_execute ($query,OCI_DEFAULT);
-    $options = $options."<option value='รวมทุกประเภทบัตร' selected>รวมทุกประเภทบัตร</option>";
+    if($_POST['type'] == "insert"){
+        $options = $options."<option disabled selected value=''>--โปรดเลือก--</option>";
+    } else {
+        $options = $options."<option value='รวมทุกประเภทบัตร' selected>รวมทุกประเภทบัตร</option>";
+    }
     while ($row = oci_fetch_array($query,OCI_BOTH)) {
-    	$str = "<option value='" . $row['CARD_TYPE_DISPLAY'] . "'>" . $row['CARD_TYPE_DISPLAY'] . "</option>";
+        $str = "<option value='" . $row['CARD_TYPE_DISPLAY'] . "'>" . $row['CARD_TYPE_DISPLAY'] . "</option>";
         $options = $options.$str;
     }
     $dropdown->set_product_type_name($_POST['value']);
@@ -73,7 +84,7 @@ if($_POST['id'] == 'business_type'){
     $sql = str_replace("#region_name_display#", $_POST['value'], $sql);
     $query = oci_parse($conn, $sql);
     oci_execute ($query,OCI_DEFAULT);
-    $options = $options."<option value='รวมทุกเขต' selected>รวมทุกเขต</option>";
+    $options = $options."<option value='รวมทุกเขต' selected value=''>รวมทุกเขต</option>";
     while ($row = oci_fetch_array($query,OCI_BOTH)) {
     	$str = "<option value='" . $row['ZONE_NAME_DISPLAY'] . "'>" . $row['ZONE_NAME_DISPLAY'] . "</option>";
         $options = $options.$str;
@@ -94,7 +105,7 @@ if($_POST['id'] == 'business_type'){
     $sql = str_replace("#zone_name_display#", $_POST['value'], $sql);
     $query = oci_parse($conn, $sql);
     oci_execute ($query,OCI_DEFAULT);
-    $options = $options."<option value='รวมทุกสาขา' selected>รวมทุกสาขา</option>";
+    $options = $options."<option value='รวมทุกสาขา' selected value=''>รวมทุกสาขา</option>";
     while ($row = oci_fetch_array($query,OCI_BOTH)) {
     	$str = "<option value='" . $row['BRANCH_NAME_DISPLAY'] . "'>" . $row['BRANCH_NAME_DISPLAY'] . "</option>";
         $options = $options.$str;

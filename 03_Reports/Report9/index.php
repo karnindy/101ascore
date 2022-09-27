@@ -203,8 +203,8 @@
         </div>
         <div id="report_area" style="display:none">
             <h3 class="text-center font-weight-bold">ธนาคารออมสิน</h3>
-            <p class="text-center font-weight-bold">รายงานประเมินประสิทธิผลของแบบจำลองฯ ในการแยกลูกค้าดีออกจากลูกค้าไม่ดี</p>
-            <p class="text-center font-weight-bold">Good or Bad Separation Report(REP07)</p>
+            <p class="text-center font-weight-bold">รายงานเปรียบเทียบการผิดนัดชำระหนี้ของลูกหนี้ที่ได้เปิดบัญชีมาเป็นระยะเวลาเท่ากัน</p>
+            <p class="text-center font-weight-bold">Vintage Analysis Report(REP09)</p>
             <div class="row mb-5">
                 <div class="col-md-12">
                     <span class="font-weight-bold">เวอร์ชันโมเดล :</span> <span id="model_version_show"></span>

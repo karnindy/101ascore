@@ -61,13 +61,14 @@ function getValueDropdown(element) {
 }
 
 function onSubmit() {
+    // document.getElementById("report_area").style.display = "block";
     const product_type = document.getElementById('product_type').value; 
     const model_type = document.getElementById('model_type').value; 
     const card_type = document.getElementById('card_type').value; 
     const model_version = document.getElementById('model_version').value;
     const month = document.getElementById('month').value
     const year = document.getElementById('year').value
-    if(product_type === '--โปรดเลือก--' || model_type === '--โปรดเลือก--' || card_type === '--โปรดเลือก--' || model_version === '--โปรดเลือก--' || !month || !year) { 
+    if(product_type === '--โปรดเลือก--' || model_type === '--โปรดเลือก--' || card_type === '--โปรดเลือก--' || model_version === '--โปรดเลือก--' || !month || !year) {
         alert("กรุณากรอกข้อมูลให้ครบถ้วน");
         return;
     }
@@ -86,7 +87,7 @@ function onSubmit() {
     const date_report = `${month}/${year}`
 
     const date = new Date();
-    const date_now = ("0" + date.getDate()).slice(-2) + '/' + ("0"+(date.getMonth()+1)).slice(-2) + '/' + date.getFullYear()+ "  " + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2) + ":" + ("0" + date.getSeconds()).slice(-2)
+    const date_now = ("0" + date.getDate()).slice(-2) + '/' + ("0"+(date.getMonth()+1)).slice(-2) + '/' + date.getFullYear()+ "  " + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2) + ":" + ("0" + date.getSeconds()).slice(-2);
 
     
     document.getElementById("product_type_show").innerHTML = product_type;

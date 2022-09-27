@@ -1,7 +1,7 @@
 <?php
 
-	$username = "Admin2";
-	$password = "Password123456";
+	$username = "JOHN";
+	$password = "abcd1234";
 	$host = "10.10.98.120:1521/ORCL";
 	// $character_set = "AL32UTF8";
 	$character_set = "UTF8";

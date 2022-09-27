@@ -65,6 +65,45 @@ function getValueDropdown(element) {
     
 }
 
+function check_date_between () {
+	const start_date = document.getElementById("start_date").value;
+	const end_date = document.getElementById("end_date").value;
+	if(start_date && end_date){
+		const check = compareDate(start_date, end_date);
+		
+		const check_date = document.getElementById("check_date");
+		if(check){
+			check_date.classList.remove("d-block");
+			check_date.classList.add("d-none");
+		} else {
+			check_date.classList.remove("d-none");
+			check_date.classList.add("d-block");
+		}
+	}
+}
+
+function compareDate(start, end){
+  const start_date_array = start.split("-").reverse()
+  const end_date_array = end.split("-").reverse()
+  if(start_date_array[0] < end_date_array[0]){
+	return true;
+  } else if(start_date_array[0] === end_date_array[0]) {
+	if(start_date_array[1] < end_date_array[1]){
+	  return true;
+	} else if(start_date_array[1] === end_date_array[1]) {
+	  if(start_date_array[2] < end_date_array[2]){
+		return true;
+	  } else {
+		return false;
+	  }
+	} else {
+	  return false;
+	}
+  } else {
+	return false;
+  }
+};
+
 function onSubmit() {
     const product_type = document.getElementById('product_type').value; 
     const model_type = document.getElementById('model_type').value; 
@@ -72,7 +111,11 @@ function onSubmit() {
     const model_version = document.getElementById('model_version').value;
     const start_date_temp = document.getElementById('start_date').value;
     const end_date_temp = document.getElementById('end_date').value;
-    if(product_type === '--โปรดเลือก--' || model_type === '--โปรดเลือก--' || card_type === '--โปรดเลือก--' || model_version === '--โปรดเลือก--' || !start_date_temp || !end_date_temp ) return;
+    if(product_type === '--โปรดเลือก--' || model_type === '--โปรดเลือก--' || card_type === '--โปรดเลือก--' || model_version === '--โปรดเลือก--' || !start_date_temp || !end_date_temp || !compareDate(start_date_temp, end_date_temp)) {
+		alert("กรุณากรอกข้อมูลให้ครบถ้วน");
+		
+		return;
+	}
 
     const region_name = document.getElementById('region_name').value;
     const zone_name = document.getElementById('zone_name').value;
@@ -86,7 +129,7 @@ function onSubmit() {
     const end_date = ("0" + end_date_format.getDate()).slice(-2) + '/' + ("0"+(end_date_format.getMonth()+1)).slice(-2) + '/' +end_date_format.getFullYear()
     
     const date = new Date();
-    const date_now = ("0" + date.getDate()).slice(-2) + '/' + ("0"+(date.getMonth()+1)).slice(-2) + '/' + date.getFullYear()+ "  " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
+    const date_now = ("0" + date.getDate()).slice(-2) + '/' + ("0"+(date.getMonth()+1)).slice(-2) + '/' + date.getFullYear()+ "  " + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2) + ":" + ("0" + date.getSeconds()).slice(-2)
 
     
     document.getElementById("product_type_show").innerHTML = product_type;
